@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.apply.dao.ApplyDao">
+     <sql id="findObjectsWhere">
+         <where>
+          <if test='id!=null and id!=""'>
+             and employeeid = #{id} 
+          </if>
+          <if test='type!=null and type!=""'>
+             and applytype = #{type} 
+          </if>
+          </where>
+     </sql>
+    
+    <!-- 查询表中所有数据 -->
+	<select id="findObjects" resultType="erp.apply.entity.Apply">
+		select * from erp_apply 
+		<include refid="findObjectsWhere"/>
+       order by createdTime desc
+       limit #{startIndex},#{pageSize};
+	</select>
+	 <!-- 根据id查找某条记录 -->
+     <select id="findObjectById" resultType="erp.apply.entity.Apply">
+       select * 
+       from erp_apply
+       where applyno=#{applyno} 
+     </select>
+     
+      <!-- 查询表中总记录数(要根据此数据计算总页数) -->
+     <select id="getRowCount" 
+          resultType="java.lang.Integer">
+          select count(*) 
+          from erp_apply
+          <include refid="findObjectsWhere"/>
+     </select>
+     
+     <insert id="insertObject" 
+       parameterType="erp.apply.entity.Apply">
+       insert into erp_apply(
+       employeeID,
+       applytype,
+       applytime,
+       applystatus,
+       applyman,
+       applycontent,
+       note,
+       createdTime,
+       modifiedTime,
+       createdUser,
+       modifiedUser
+       )values(
+       #{employeeID},
+       #{applytype},
+       #{applytime},
+       #{applystatus},
+       #{applyman},
+       #{applycontent},
+       #{note},
+       #{createdTime},
+       #{modifiedTime},
+       #{createdUser},
+       #{modifiedUser}
+       );
+     </insert>
+     
+     <update id="updateObject"
+      parameterType="erp.apply.entity.Apply">
+      update erp_apply
+      set 
+      applystatus=#{applystatus},
+      note=#{note},
+      modifiedTime=#{modifiedTime},
+      modifiedUser=#{modifiedUser}
+      where applyno=#{applyno}
+     </update>
+</mapper> 

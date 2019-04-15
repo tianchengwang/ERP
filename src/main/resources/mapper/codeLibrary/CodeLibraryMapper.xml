@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.common.dao.CodeLibraryDao">
+     
+     <select id="findObjects" resultType="erp.common.entity.Codelibrary">
+		select * from code_library where codeno = #{codeno}
+	</select>
+    
+	<select id="findObject" resultType="erp.common.entity.Codelibrary">
+		select * from code_library where codeno = #{codeno} and itemno = #{itemno}
+	</select>
+	
+	<select id="findShengObjects" resultType="erp.common.entity.Codelibrary">
+		select * from code_library where codeno = 'Address' and itemno like  "%0000"
+	</select>
+	
+	<select id="findShiObjects" resultType="erp.common.entity.Codelibrary">
+		select * from code_library where codeno = 'Address' and itemno like  concat(#{itemno},"%","00") and itemno not like concat(#{itemno},"0000")
+	</select>
+	
+	<select id="findQuObjects" resultType="erp.common.entity.Codelibrary">
+		select * from code_library where codeno = 'Address' and itemno like  concat(#{itemno},"%") and itemno not like concat(#{itemno},"00")
+	</select>
+	
+</mapper> 

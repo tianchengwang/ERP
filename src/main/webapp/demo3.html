@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>省市联动案例</title>
+		<script src="jquery/jquery-1.11.1.js"></script>
+		<script>
+			$(function(){
+				doFindObjectSheng();
+			})
+			
+			function doFindObjectSheng(){
+				var url="findShengObjects.do"
+				$.post(url,function(result){
+					if(result.state==1){
+					 InitAddressFormData("sheng",result.data.list);	
+					}else{
+					 alert(result.message);
+					}
+				});
+			}
+			function InitAddressFormData(address,result){
+				var address = $("#"+address);
+				address.empty();
+				address.append("<option>请选择</option>");
+				for(var i=0;i<result.length;i++){
+					var option = $("<option></option>");
+					option.val(result[i].itemno)
+					option.html(result[i].itemname);		
+					address.append(option);
+				}
+			}
+			
+			function chg1(){
+				
+				var sval = $("#sheng").val();
+				alert(sval);
+				sval = sval.substring(0,2);
+				alert(sval);
+				var params = {"itemno":sval};
+				var url = "findShiObjects.do";
+				$.post(url,params,function(result){
+					if(result.state==1){
+					 InitAddressFormData("shi",result.data.list);	
+					}else{
+					 alert(result.message);
+					}
+				});
+			}
+			function chg2(){
+				
+				var sval = $("#shi").val();
+				alert(sval);
+				sval = sval.substring(0,4);
+				alert(sval);
+				
+				var params = {"itemno":sval};
+				var url = "findQuObjects.do";
+				$.post(url,params,function(result){
+					if(result.state==1){
+					 InitAddressFormData("qu",result.data.list);	
+					}else{
+					 alert(result.message);
+					}
+				});
+			}
+		
+		</script>
+	</head>
+	<body>
+		<p>
+			省：
+			<select onchange="chg1();" id = "sheng">
+				<option>请选择</option>
+			</select>
+			市：
+			<select id = "shi" onchange="chg2();">
+				<option>请选择</option>
+			</select>
+			区县：
+			<select id = "qu">
+				<option>请选择</option>
+			</select>
+			
+		</p>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.salary.dao.SalaryDao">
+     <sql id="findObjectsWhere">
+         
+     </sql>
+    
+    <!-- 查询表中所有数据 -->
+	<select id="findObjects" resultType="erp.salary.entity.Salary">
+	   select * from erp_salary
+       order by createdTime desc
+       limit #{startIndex},#{pageSize};
+	</select>
+	 <!-- 根据id查找某条记录 -->
+     <select id="findObjectById" resultType="erp.salary.entity.Salary">
+       select * 
+       from erp_salary
+       where salaryno=#{id} 
+     </select>
+     
+     <!-- 根据id查找某条记录 -->
+     <select id="findObjectByEId" resultType="erp.salary.entity.Salary">
+       select * 
+       from erp_salary
+       where employeeID=#{id} 
+     </select>
+     
+      <!-- 查询表中总记录数(要根据此数据计算总页数) -->
+     <select id="getRowCount" 
+          resultType="java.lang.Integer">
+          select count(*) 
+          from erp_Salary
+     </select>
+     
+     <insert id="insertObject" 
+       parameterType="erp.salary.entity.Salary">
+       insert into erp_Salary(
+       employeeID,
+       basicssalary,
+       ranksalary,
+       achievements,
+       mealsalary,
+       housesalary,
+       travelexpenses,
+       totalsalary,
+       note,
+       createdTime,
+       modifiedTime,
+       createdUser,
+       modifiedUser
+       )values(
+       #{employeeID},
+       #{basicssalary},
+       #{ranksalary},
+       #{achievements},
+       #{mealsalary},
+       #{housesalary},
+       #{travelexpenses},
+       #{totalsalary},
+       #{note},
+       #{createdTime},
+       #{modifiedTime},
+       #{createdUser},
+       #{modifiedUser}
+       );
+     </insert>
+     
+     <update id="updateObject"
+      parameterType="erp.salary.entity.Salary">
+      update erp_salary
+      set 
+      basicssalary=#{basicssalary},
+      ranksalary=#{ranksalary},
+      achievements=#{achievements},
+      mealsalary=#{mealsalary},
+      housesalary=#{housesalary},
+      travelexpenses=#{travelexpenses},
+      totalsalary=#{totalsalary},
+      note=#{note},
+      modifiedTime=#{modifiedTime},
+      modifiedUser=#{modifiedUser}
+      where Salaryno=#{salaryno}
+     </update>
+</mapper> 

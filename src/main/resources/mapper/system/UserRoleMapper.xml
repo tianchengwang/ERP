@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.system.dao.UserRoleDao">
+	
+	<!-- 查询用户的所有角色id -->
+	<select id="findRoleByUserId" parameterType="java.lang.Integer"  resultType="java.lang.Integer">
+		select
+			r_id
+		from
+		 	users_role
+		 where
+		 	u_id = #{userId}
+	</select>
+	<!-- 保存用户角色关系 -->
+	<insert id="insertObject" parameterType="erp.system.entity.UserRole"  >
+		insert into 
+			users_role(u_id,r_id,remark,createdTime,createdUser)
+		values
+			(#{u_id},#{r_id}, #{remark},#{createdTime},#{createdUser})
+	</insert>
+	 <!-- 判断是否有用户占用此角色 -->
+	<!--<select id="isUsedByUser" 
+	        parameterType="integer" 
+	        resultType="integer">
+		select
+			count(*)
+		from
+			users_role
+		where
+		 	r_id = #{roleId}
+	</select>
+	 -->
+	<!-- 删除用户角色关系 -->
+	<!-- <delete id="deleteUserRoles" parameterType="java.lang.Integer">
+		delete from users_role where u_id = #{id}
+	</delete> -->
+	
+</mapper>

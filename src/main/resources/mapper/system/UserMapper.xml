@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.system.dao.UserDao">
+	
+	<!-- 根据用户名查询用户信息 -->
+	<select id="findObjectByName" 
+	    parameterType="java.lang.String" 
+	    resultType="erp.system.entity.User">
+		select
+			*
+		from
+			users
+		where
+			u_valid = 1 
+		and
+			u_username = #{username}
+	</select>
+	<!-- 保存用户信息 -->
+	<insert id="insertObject" 
+	 parameterType="erp.system.entity.User" >
+		insert into
+			users
+			(e_id,u_username,u_password,u_email,u_mobile,u_address,u_valid,remark,createdTime,modifiedTime,
+			createdUser,modifiedUser)
+		values
+			(#{e_id},#{u_username},#{u_password},#{u_email},#{u_mobile},#{u_address},
+			#{u_valid},#{remark},#{createdTime},#{modifiedTime},#{createdUser},#{modifiedUser});
+	</insert>
+	
+	<!-- 根据id查询用户信息 -->
+	 <select id="findObjectById" 
+	        parameterType="java.lang.Integer"
+	        resultType="erp.system.entity.User">
+		select
+			*
+		from
+			users
+		where
+			u_id = #{id}
+	</select> 
+	
+	<!-- 查询用户列表 -->
+	<select id="findPageObjects" 
+	    resultType="erp.system.entity.User">
+		select
+			*
+		from
+			users
+		 LIMIT #{startIndex},#{pageSize}
+	</select>
+	<!-- 查询记录总条数 -->
+	<select id="getRowCount" 
+            parameterType="erp.system.entity.User" 
+            resultType="java.lang.Integer">
+		select count(*) from users
+	</select> 
+	
+	
+	<!-- 修改更新用户信息 -->
+	<update id="updateObject" 
+	    parameterType="erp.system.entity.User">
+		update
+			users
+		set
+			u_username = #{u_username},
+			u_password = #{u_password},
+			u_email = #{u_email},
+			u_mobile = #{u_mobile},
+			u_address = #{u_address},
+			u_valid = #{u_valid},
+			remark = #{remark},
+			modifiedTime = #{modifiedTime},
+			modifiedUser = #{modifiedUser}
+		where
+			u_id = #{u_id}
+	</update>
+	
+	 <update id="validById">
+        update users
+        set u_valid=#{valid}
+        where e_id in 
+        <if test="ids!=null and ids.length>0">
+          <foreach collection="ids" 
+                 open="(" close=")"
+                 separator="," item="item">
+                 #{item}
+           </foreach>
+        </if>
+     </update>
+	
+	
+	<!-- 切换用户启用/禁用状态 -->
+	<!-- <update id="validById">
+		update
+			users
+		set
+			valid = #{valid}
+		where
+			id = #{id}
+	</update> -->
+	
+	<!-- 查询用户权限 -->
+	<!-- <select id="findUserPermissions"
+	        parameterType="integer" 
+	        resultType="string">
+		select 
+			m.permission 
+		from 
+			sys_user_roles ur,sys_role_menus rm ,sys_menus m
+		where
+			ur.role_id = rm.role_id 
+		and
+			rm.menu_id = m.id 
+		and
+			ur.user_id = #{userId}
+	</select> -->
+	
+</mapper>
